@@ -1,0 +1,28 @@
+###
+GET http://localhost:3000/projects
+
+# GET http://localhost:3000/projects/e634c00d-1453-47ee-8047-cdb7e7dbccde
+
+###
+# @name createProject 
+POST http://localhost:3000/projects
+Content-Type: application/json
+
+{
+    "name": "Project sd",
+    "description": "Description 2",
+    "started_at": "2024-03-02"
+}
+
+
+@project_id {{createProject.response.body.id}}
+
+###
+# @name updateProject 
+PATCH http://localhost:3000/projects/{{project_id}}
+Content-Type: application/json
+
+{
+    "name": "Project sd updated",
+    "description": "Description sd updated",
+}
