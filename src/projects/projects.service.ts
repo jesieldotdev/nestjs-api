@@ -24,8 +24,13 @@ export class ProjectsService {
     return this.ProjectRepo.find();
   }
 
-  findOne(id: string) {
-    return this.ProjectRepo.findOneOrFail({ where: { id } });
+  async findOne(id: string) {
+    try {
+      const project = await this.ProjectRepo.findOneOrFail({ where: { id } });
+      return project;
+    } catch (error) {
+      return error;
+    }
   }
 
   async update(id: string, updateProjectDto: UpdateProjectDto) {
@@ -86,7 +91,9 @@ export class ProjectsService {
     this.ProjectRepo.save(project);
   }
 
-  remove(id: string) {
+  async remove(id: string) {
+    const project = await this.ProjectRepo.findOneOrFail({ where: { id } });
+    await this.ProjectRepo.remove(project);
     return `This action removes a #${id} project`;
   }
 }

@@ -7,36 +7,66 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { ProjectsService } from './projects.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
-
+import { CreateProjectUseCase } from './use-cases/create-project.use-case';
+import { FindAllProjectsUseCase } from './use-cases/find-all-projects.use-case';
+import { StartProjectUseCase } from './use-cases/start-project.use-case';
+import { FindOneProjectUseCase } from './use-cases/find-one-project.use-case';
+import { RemoveProjectUseCase } from './use-cases/remove-project.use-case';
 @Controller('projects')
 export class ProjectsController {
-  constructor(private readonly projectsService: ProjectsService) {}
+  constructor(
+    private readonly createProjectUseCase: CreateProjectUseCase,
+    private readonly findAllProjectsUseCase: FindAllProjectsUseCase,
+    private readonly startProjectUseCase: StartProjectUseCase,
+    private readonly findOneProjectUseCase: FindOneProjectUseCase,
+    private readonly removeProjectUseCase: RemoveProjectUseCase,
+  ) {}
 
   @Post()
   create(@Body() createProjectDto: CreateProjectDto) {
-    return this.projectsService.create(createProjectDto);
+    return this.createProjectUseCase.execute(createProjectDto);
   }
-
   @Get()
   findAll() {
-    return this.projectsService.findAll();
+    return this.findAllProjectsUseCase.execute();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.projectsService.findOne(id);
+    return this.findOneProjectUseCase.execute(id);
   }
-
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto) {
-    return this.projectsService.update(id, updateProjectDto);
+    return this.startProjectUseCase.execute(id, updateProjectDto);
   }
-
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.projectsService.remove(id);
+    return this.removeProjectUseCase.execute(id);
   }
+  // @Post()
+  // create(@Body() createProjectDto: CreateProjectDto) {
+  //   return this.projectsService.create(createProjectDto);
+  // }
+
+  // @Get()
+  // findAll() {
+  //   return this.FindAllAllUseCase.execute();
+  // }
+
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.projectsService.findOne(id);
+  // }
+
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto) {
+  //   return this.projectsService.update(id, updateProjectDto);
+  // }
+
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.projectsService.remove(id);
+  // }
 }
