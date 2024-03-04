@@ -11,7 +11,7 @@ export enum ProjectStatus {
 @Entity()
 export class Project {
   create(project: Project) {
-      throw new Error('Method not implemented.');
+    throw new Error('Method not implemented.');
   }
   @PrimaryColumn()
   id: string;
@@ -43,5 +43,57 @@ export class Project {
   ) {
     Object.assign(this, props);
     this.id = id ?? crypto.randomUUID();
+  }
+
+  //regras de negocio
+  start(started_at: Date) {
+    if (started_at) {
+      if (this.status === ProjectStatus.Active) {
+        throw new Error('Cannot start actived project');
+      }
+      if (this.status === ProjectStatus.Completed) {
+        throw new Error('Cannot start completed project');
+      }
+      if (this.status === ProjectStatus.Cancelled) {
+        throw new Error('Cannot start cancelled project');
+      }
+
+      this.started_at = started_at;
+      this.status = ProjectStatus.Active;
+    }
+  }
+
+  cancelled(cancelled_at: Date) {
+    if (cancelled_at) {
+      if (this.status === ProjectStatus.Active) {
+        throw new Error('Cannot start actived project');
+      }
+      if (this.status === ProjectStatus.Completed) {
+        throw new Error('Cannot start completed project');
+      }
+      if (this.status === ProjectStatus.Cancelled) {
+        throw new Error('Cannot start cancelled project');
+      }
+
+      this.cancelled_at = cancelled_at;
+      this.status = ProjectStatus.Cancelled;
+    }
+  }
+
+  finished(finished_at: Date) {
+    if (finished_at) {
+      if (this.status === ProjectStatus.Completed) {
+        throw new Error('Cannot finish completed project');
+      }
+      if (this.status === ProjectStatus.Cancelled) {
+        throw new Error('Cannot finish cancelled project');
+      }
+      if (finished_at < this.started_at) {
+        throw new Error('Cannot complete project before it started');
+      }
+
+      this.finished_at = finished_at;
+      this.status = ProjectStatus.Completed;
+    }
   }
 }

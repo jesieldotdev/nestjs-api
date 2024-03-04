@@ -13,7 +13,6 @@ import { RemoveProjectUseCase } from './use-cases/remove-project.use-case';
   imports: [TypeOrmModule.forFeature([Project])],
   controllers: [ProjectsController],
   providers: [
-    ProjectsService,
     CreateProjectUseCase,
     FindAllProjectsUseCase,
     StartProjectUseCase,
