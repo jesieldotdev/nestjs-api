@@ -1,19 +1,20 @@
 import { Repository } from 'typeorm';
 import { Project } from '../entities/project.entity';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UpdateProjectDto } from '../dto/update-project.dto';
+import { IProjectRepository } from '../project.repository';
 
 @Injectable()
 export class StartProjectUseCase {
   constructor(
-    @InjectRepository(Project)
-    private readonly projectRepo: Repository<Project>, //Repository em memoria
+    @Inject('IProjectRepository')
+    private readonly projectRepo: IProjectRepository, //Repository em memoria
   ) {}
 
   async execute(id: string, updateProjectDto: UpdateProjectDto) {
     try {
-      const project = await this.projectRepo.findOneOrFail({ where: { id } });
+      const project = await this.projectRepo.findById(id);
       updateProjectDto.name && (project.name = updateProjectDto.name);
       updateProjectDto.description &&
         (project.description = updateProjectDto.description);
@@ -28,7 +29,8 @@ export class StartProjectUseCase {
 
       project.finished(updateProjectDto.finished_at);
 
-      return this.projectRepo.save(project);
+      this.projectRepo.update(project);
+      return project;
     } catch (error) {
       return error.message;
     }
