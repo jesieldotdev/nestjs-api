@@ -10,9 +10,6 @@ export enum ProjectStatus {
 
 @Entity()
 export class Project {
-  create(project: Project) {
-    throw new Error('Method not implemented.');
-  }
   @PrimaryColumn()
   id: string;
   @Column()
