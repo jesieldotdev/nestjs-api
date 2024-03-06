@@ -1,5 +1,5 @@
 import { Column, Entity, ObjectIdColumn } from 'typeorm';
-import crypto from 'crypto';
+import { ObjectId } from 'bson';
 
 export enum ProjectStatus {
   Pendind = 'pending',
@@ -11,7 +11,7 @@ export enum ProjectStatus {
 @Entity()
 export class Project {
   @ObjectIdColumn()
-  id: string;
+  _id: ObjectId;
   @Column()
   name: string;
   @Column()

@@ -11,7 +11,7 @@ export class RemoveProjectUseCase {
   async execute(id: string) {
     try {
       const project = await this.projectRepo.findById(id);
-      await this.projectRepo.remove(project.id);
+      await this.projectRepo.remove(project._id.toString());
       return `This action removes a #${id} project`;
     } catch (error) {
       return error;

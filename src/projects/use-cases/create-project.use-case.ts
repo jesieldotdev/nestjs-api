@@ -18,6 +18,7 @@ export class CreateProjectUseCase {
     if (input.started_at) {
       project.status = ProjectStatus.Active;
     }
+    project.started_at = new Date();
     // return this.projectRepo.save(project);
     await this.projectRepo.create(project);
     return project;
