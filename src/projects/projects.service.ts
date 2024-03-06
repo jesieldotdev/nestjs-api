@@ -26,7 +26,9 @@ export class ProjectsService {
 
   async findOne(id: string) {
     try {
-      const project = await this.ProjectRepo.findOneOrFail({ where: { id } });
+      const project = await this.ProjectRepo.findOneOrFail({
+        where: { id: id },
+      });
       return project;
     } catch (error) {
       return error;
@@ -34,7 +36,9 @@ export class ProjectsService {
   }
 
   async update(id: string, updateProjectDto: UpdateProjectDto) {
-    const project = await this.ProjectRepo.findOneOrFail({ where: { id } });
+    const project = await this.ProjectRepo.findOneOrFail({
+      where: { id: id },
+    });
     updateProjectDto.name && (project.name = updateProjectDto.name);
     updateProjectDto.description &&
       (project.description = updateProjectDto.description);
@@ -92,7 +96,9 @@ export class ProjectsService {
   }
 
   async remove(id: string) {
-    const project = await this.ProjectRepo.findOneOrFail({ where: { id } });
+    const project = await this.ProjectRepo.findOneOrFail({
+      where: { id: id },
+    });
     await this.ProjectRepo.remove(project);
     return `This action removes a #${id} project`;
   }

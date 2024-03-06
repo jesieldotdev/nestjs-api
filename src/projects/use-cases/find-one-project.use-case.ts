@@ -11,6 +11,7 @@ export class FindOneProjectUseCase {
   async execute(id: string) {
     try {
       const project = await this.projectRepo.findById(id);
+      console.log(project);
       return project;
     } catch (error) {
       return error;

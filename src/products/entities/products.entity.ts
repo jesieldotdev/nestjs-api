@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, ObjectIdColumn, PrimaryColumn } from 'typeorm';
 import crypto from 'crypto';
 
 export enum ProductStatus {
@@ -8,26 +8,27 @@ export enum ProductStatus {
 
 @Entity()
 export class Product {
-  @PrimaryColumn()
+  @ObjectIdColumn()
   id: string;
+
   @Column()
   name: string;
+
   @Column()
   description: string;
+
   @Column()
   price: number;
-  status: ProductStatus = ProductStatus.Active;
 
-  constructor(
-    props: {
-      name: string;
-      description: string;
-      price: number;
-    },
-    id?: string,
-  ) {
+  @Column({
+    type: 'enum',
+    enum: ProductStatus,
+    default: ProductStatus.Active,
+  })
+  status: ProductStatus;
+
+  constructor(props: { name: string; description: string; price: number }) {
     Object.assign(this, props);
-    this.id = id ?? crypto.randomUUID();
   }
 
   //regras de negocio

@@ -1,4 +1,4 @@
-import { Repository } from 'typeorm';
+import { ObjectId, Repository } from 'typeorm';
 import { Project } from './entities/project.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -32,7 +32,7 @@ export class ProjectTypeOrmRepository implements IProjectRepository {
   findAll(): Promise<Project[]> {
     return this.typeOrmRepo.find();
   }
-  findById(id: string): Promise<Project> {
+  async findById(id: string): Promise<Project> {
     return this.typeOrmRepo.findOneOrFail({ where: { id } });
   }
 }

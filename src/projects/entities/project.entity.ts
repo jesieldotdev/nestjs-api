@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, ObjectIdColumn } from 'typeorm';
 import crypto from 'crypto';
 
 export enum ProjectStatus {
@@ -10,7 +10,7 @@ export enum ProjectStatus {
 
 @Entity()
 export class Project {
-  @PrimaryColumn()
+  @ObjectIdColumn()
   id: string;
   @Column()
   name: string;
@@ -36,10 +36,10 @@ export class Project {
       forecasted_at: Date | null;
       finished_at: Date | null;
     },
-    id?: string,
+    // id?: string,
   ) {
     Object.assign(this, props);
-    this.id = id ?? crypto.randomUUID();
+    // this._id = id ?? crypto.randomUUID();
   }
 
   //regras de negocio
